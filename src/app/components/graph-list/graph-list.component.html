@@ -1,0 +1,12 @@
+<section class="graph-column">
+  <div class='graph-header'>
+    <h4>{{columnName}}</h4>
+  </div>
+  <div class="graph-content" >
+
+    <div class="graph-body" *ngFor="let person of groupedPeople">
+      <app-graph-item [backgroundColor]='getBackgroundColorByBMI(person)' [person]='person'> </app-graph-item>
+    </div>
+
+</div>
+</section>

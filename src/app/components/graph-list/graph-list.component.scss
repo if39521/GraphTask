@@ -1,0 +1,28 @@
+.graph-column {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
+
+   > * {
+     width: 100%;
+     text-align: center;
+   }
+
+   .graph-header {
+    border-bottom: 1px solid black;
+    height: 20%;
+   }
+
+   .graph-content {
+     height: 100%;
+     border-right: 1px solid black;
+   }
+
+}
+
+.graph-list:nth-child(1) {
+  .graph-column .graph-content {
+    border-left: 1px solid black;
+  }
+}
