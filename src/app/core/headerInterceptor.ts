@@ -23,7 +23,7 @@ export class HeaderInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
     catchError((err: any) => {
-      if(err instanceof HttpErrorResponse) {
+      if (err instanceof HttpErrorResponse) {
         console.error(err);
       }
       return throwError(err);

@@ -1,5 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy, HostBinding, ViewEncapsulation } from '@angular/core';
 import { PeopleWitBMI } from 'src/app/models/people';
+import { BmiBackgroundColor } from 'src/app/models/BmiBackgroundColor';
 
 @Component({
   selector: 'app-graph-list',
@@ -12,27 +13,27 @@ export class GraphListComponent  {
 
   @HostBinding('class') classes = 'graph-list';
   @Input() groupedPeople: PeopleWitBMI[];
-  @Input() columnName: string;
+  @Input() columnName: BmiBackgroundColor;
 
 
-  public getBackgroundColorByBMI(person: PeopleWitBMI) {
-    let backgroundColor: string;
+  public getBackgroundColorByBMI(person: PeopleWitBMI): BmiBackgroundColor {
+    let backgroundColor: BmiBackgroundColor;
 
     switch (true) {
       case person.BMI < 16:
-        backgroundColor = 'black';
+        backgroundColor = BmiBackgroundColor.BLACK;
         break;
       case person.BMI >= 16 && person.BMI < 25:
-        backgroundColor = 'green';
+        backgroundColor = BmiBackgroundColor.GREEN;
         break;
       case person.BMI >= 25 && person.BMI < 40:
-        backgroundColor = 'orange';
+        backgroundColor = BmiBackgroundColor.ORANGE;
         break;
       case person.BMI > 40:
-        backgroundColor = 'red';
+        backgroundColor = BmiBackgroundColor.RED;
         break;
       default:
-        backgroundColor = 'black';
+        backgroundColor = BmiBackgroundColor.BLACK;
         break;
     }
     return backgroundColor;

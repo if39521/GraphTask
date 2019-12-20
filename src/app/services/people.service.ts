@@ -1,5 +1,6 @@
+import { calculateBMI } from './../shared/helpers';
 import { Injectable } from '@angular/core';
-import { ApiService } from './api.service';
+import { ApiService } from '../core/api.service';
 import { Person, PeopleWitBMI, GroupPeopleBy } from '../models/people';
 import { map, shareReplay, tap, take, toArray } from 'rxjs/operators';
 import { Observable, BehaviorSubject, combineLatest, forkJoin, } from 'rxjs';
@@ -10,16 +11,17 @@ import { sortByBirthDay, pattern } from '../shared/helpers';
 })
 export class PeopleService {
 
-  private readonly peopleEndpoint = 'people/?format=json';
+  private readonly peopleEndpoint = 'people';
   private groupedPeople: BehaviorSubject<PeopleWitBMI[][]> = new BehaviorSubject<PeopleWitBMI[][]>(null);
 
   public readonly groupedPeople$: Observable<PeopleWitBMI[][]> = this.groupedPeople.asObservable();
+
   constructor(private apiSrv: ApiService) { }
 
   public getPeople(filterPeopleBy: GroupPeopleBy[]): void {
     const people$ = this.apiSrv.get(this.peopleEndpoint).pipe(
       map(peopleResponse => peopleResponse.results),
-      map(people => people.map(person => ({...person, BMI: this.calculateBMI(person)})  as PeopleWitBMI[])),
+      map(people => people.map(person => ({...person, BMI: calculateBMI(person)})  as PeopleWitBMI[])),
       map(peopleWithBMI => peopleWithBMI.sort(sortByBirthDay)),
       shareReplay()
     );
@@ -49,13 +51,6 @@ export class PeopleService {
     return grouped$;
   }
 
-  private calculateBMI(person: Person): number {
-    const heightInMeter: number = Number(person.height) / 100;
-    const weight: number = Number(person.mass);
-
-    return weight / Math.pow(heightInMeter, 2);
-  }
-
   private personIsBetweenAges(person: Person, fromAge: number, toAge: number): boolean {
     const matchedBirthYear: RegExpMatchArray = person.birth_year.match(pattern);
     if (!matchedBirthYear) {return false; }
@@ -66,16 +61,16 @@ export class PeopleService {
 
   private findPeopleWithUnkownBirth() {
     return (src: Observable<PeopleWitBMI[]>) =>
-    src.pipe(
-      map(people => people.filter(person => person.birth_year === 'unknown')),
-      toArray()
-    );
+      src.pipe(
+        map(people => people.filter(person => person.birth_year === 'unknown')),
+        toArray()
+      );
   }
 
   private filterPeopleBetweenAges(fromAge: number, toAge: number) {
     return (src: Observable<PeopleWitBMI[]>) =>
-    src.pipe(
-      map(people => people.filter(person => this.personIsBetweenAges(person, fromAge, toAge)))
-    );
+      src.pipe(
+        map(people => people.filter(person => this.personIsBetweenAges(person, fromAge, toAge)))
+      );
   }
 }

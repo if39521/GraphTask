@@ -1,4 +1,4 @@
-import { PeopleWitBMI } from '../models/people'
+import { PeopleWitBMI, Person } from '../models/people'
 
 export const pattern: RegExp = /[+-]?\d+(\.\d+)?/g;
 
@@ -13,4 +13,11 @@ export const sortByBirthDay = (previousPerson: PeopleWitBMI, nextPerson: PeopleW
 
   return previousPersonBirthYear  < nextPersonBirthYear ? -1 :
     previousPersonBirthYear > nextPersonBirthYear ? 1 : 0;
+}
+
+export const calculateBMI = (person: Person): number => {
+  const heightInMeter: number = Number(person.height) / 100;
+  const weight: number = Number(person.mass);
+
+  return weight / Math.pow(heightInMeter, 2);
 }

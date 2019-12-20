@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HeaderInterceptor } from './headerInterceptor';
-import { ApiService } from '../services/api.service';
+import { ApiService } from './api.service';
 import { baseURL } from 'src/environments/config';
 
 

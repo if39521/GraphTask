@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Person } from 'src/app/models/people';
+import { BmiBackgroundColor } from 'src/app/models/BmiBackgroundColor';
 
 @Component({
   selector: 'app-graph-item',
@@ -10,6 +11,6 @@ import { Person } from 'src/app/models/people';
 export class GraphItemComponent  {
 
   @Input() person: Person;
-  @Input() backgroundColor: string;
+  @Input() backgroundColor: BmiBackgroundColor;
 
 }
